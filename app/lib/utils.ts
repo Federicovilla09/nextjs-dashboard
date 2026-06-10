@@ -22,8 +22,8 @@ export const formatDateToLocal = (
 };
 
 export const generateYAxis = (revenue: Revenue[]) => {
-  // Calculate what labels we need to display on the y-axis
-  // based on highest record and in 1000s
+  // Calcular qué etiquetas mostrar en el eje Y,
+  // según el valor más alto y de a miles (1000s)
   const yAxisLabels = [];
   const highestRecord = Math.max(...revenue.map((month) => month.revenue));
   const topLabel = Math.ceil(highestRecord / 1000) * 1000;
@@ -36,27 +36,27 @@ export const generateYAxis = (revenue: Revenue[]) => {
 };
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
-  // If the total number of pages is 7 or less,
-  // display all pages without any ellipsis.
+  // Si el total de páginas es 7 o menos,
+  // mostrar todas las páginas sin puntos suspensivos.
   if (totalPages <= 7) {
     return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
 
-  // If the current page is among the first 3 pages,
-  // show the first 3, an ellipsis, and the last 2 pages.
+  // Si la página actual está entre las primeras 3,
+  // mostrar las primeras 3, puntos suspensivos y las últimas 2.
   if (currentPage <= 3) {
     return [1, 2, 3, '...', totalPages - 1, totalPages];
   }
 
-  // If the current page is among the last 3 pages,
-  // show the first 2, an ellipsis, and the last 3 pages.
+  // Si la página actual está entre las últimas 3,
+  // mostrar las primeras 2, puntos suspensivos y las últimas 3.
   if (currentPage >= totalPages - 2) {
     return [1, 2, '...', totalPages - 2, totalPages - 1, totalPages];
   }
 
-  // If the current page is somewhere in the middle,
-  // show the first page, an ellipsis, the current page and its neighbors,
-  // another ellipsis, and the last page.
+  // Si la página actual está en algún punto del medio,
+  // mostrar la primera página, puntos suspensivos, la página actual y sus vecinas,
+  // otros puntos suspensivos y la última página.
   return [
     1,
     '...',

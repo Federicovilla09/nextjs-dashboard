@@ -49,9 +49,9 @@ export async function fetchLatestInvoices() {
 
 export async function fetchCardData() {
   try {
-    // You can probably combine these into a single SQL query
-    // However, we are intentionally splitting them to demonstrate
-    // how to initialize multiple queries in parallel with JS.
+    // Probablemente podrías combinar estas en una sola consulta SQL.
+    // Sin embargo, las separamos a propósito para demostrar
+    // cómo iniciar varias consultas en paralelo con JS.
     const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
     const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
     const invoiceStatusPromise = sql`SELECT
@@ -140,7 +140,7 @@ export async function fetchInvoicesPages(query: string) {
 }
 
 export async function fetchInvoiceById(id: string) {
-  try {
+  try { 
     const data = await sql<InvoiceForm[]>`
       SELECT
         invoices.id,
@@ -153,7 +153,7 @@ export async function fetchInvoiceById(id: string) {
 
     const invoice = data.map((invoice) => ({
       ...invoice,
-      // Convert amount from cents to dollars
+      // Convertir el monto de centavos a dólares
       amount: invoice.amount / 100,
     }));
 

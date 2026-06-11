@@ -102,6 +102,49 @@ export async function createCustomer(
   return { success: true, message: 'Cliente creado correctamente.' };
 }
 
+export async function updateCustomer(
+  id: string,
+  prevState: CustomerState,
+  formData: FormData,
+) {
+  // 1. Validar (misma reglas que al crear)
+  const validatedFields = CustomerFormSchema.safeParse({
+    name: formData.get('name'),
+    lastname: formData.get('lastname'),
+    age: formData.get('age'),
+    category: formData.get('category'),
+    email: formData.get('email'),
+  });
+
+  // 2. Si falla, devolver errores
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Faltan campos o hay errores. No se pudo actualizar el cliente.',
+    };
+  }
+
+  // 3. Datos validados
+  const { name, lastname, age, category, email } = validatedFields.data;
+
+  // 4. Actualizar la fila de ESE cliente (WHERE id)
+  try {
+    await sql`
+      UPDATE customers
+      SET name = ${name}, lastname = ${lastname}, age = ${age}, category = ${category}, email = ${email}
+      WHERE id = ${id}
+    `;
+  } catch {
+    return {
+      message: 'Error de base de datos: no se pudo actualizar el cliente.',
+    };
+  }
+
+  // 5. Refrescar y avisar éxito (el toast lo dispara el formulario)
+  revalidatePath('/dashboard/customers');
+  return { success: true, message: 'Cliente actualizado correctamente.' };
+}
+
  
 export async function createInvoice(prevState: State, formData: FormData) {
   // Validar el formulario con Zod

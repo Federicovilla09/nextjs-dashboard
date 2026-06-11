@@ -1,5 +1,5 @@
 import '@/app/ui/global.css';
-import { inter } from '@/app/ui/fonts';
+import { robotoFlex } from '@/app/ui/fonts';
 import { Metadata } from 'next';
 import { Toaster } from 'sonner';
  
@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${robotoFlex.className} antialiased`}>
         {children}
         <Toaster richColors position="top-right" />
       </body>
